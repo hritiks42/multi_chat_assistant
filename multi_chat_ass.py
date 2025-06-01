@@ -3,7 +3,7 @@ from anthropic import Anthropic
 from dotenv import load_dotenv
 import os
 import streamlit as st
-from encryption_test import decrypt
+from decryption import decrypt
 from time import sleep
 
 load_dotenv()
@@ -67,21 +67,37 @@ def enter_key_dialog():
             st.session_state.decrypt_status = True
             st.rerun()
 
+st.header("Multi AI Chat :robot_face:")
+col1, col2 = st.columns(2)
+
+with col1:
+    llm_name = st.selectbox('LLM Name',('Claude', 'GPT'))
+
+with col2:
+    model_tuple = tuple()
+    if llm_name == 'Claude':
+        model_tuple = ('claude-opus-4-20250514', 'claude-sonnet-4-20250514', 'claude-3-7-sonnet-latest', 'claude-3-5-haiku-latest')
+    else:
+        model_tuple = ('gpt-4.1', 'gpt-4.1-mini', 'gpt-4o-mini', 'o4-mini')
+
+    model_name = st.selectbox('Select model', model_tuple)
+
 if hasattr(st.session_state, 'decrypt_status'):
-    col1, col2 = st.columns(2)
+   
+    # col1, col2 = st.columns(2)
 
-    with col1:
-        llm_name = st.selectbox('LLM Name',('Claude', 'GPT'))
+    # with col1:
+    #     llm_name = st.selectbox('LLM Name',('Claude', 'GPT'))
 
-    with col2:
-        model_tuple = tuple()
-        if llm_name == 'Claude':
-            model_tuple = ('claude-opus-4-20250514', 'claude-sonnet-4-20250514', 'claude-3-7-sonnet-latest', 'claude-3-5-haiku-latest')
-        else:
-            model_tuple = ('gpt-4.1', 'gpt-4.1-mini', 'gpt-4o-mini', 'o4-mini')
+    # with col2:
+    #     model_tuple = tuple()
+    #     if llm_name == 'Claude':
+    #         model_tuple = ('claude-opus-4-20250514', 'claude-sonnet-4-20250514', 'claude-3-7-sonnet-latest', 'claude-3-5-haiku-latest')
+    #     else:
+    #         model_tuple = ('gpt-4.1', 'gpt-4.1-mini', 'gpt-4o-mini', 'o4-mini')
 
-        model_name = st.selectbox('Select model', model_tuple)
-        
+    #     model_name = st.selectbox('Select model', model_tuple)
+
     prompt = st.chat_input("Enter your prompt")
     container = st.container(height=850)
     if prompt:

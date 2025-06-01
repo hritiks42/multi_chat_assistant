@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Decrypt
 def decrypt(user_key):
     kdf = PBKDF2HMAC(
     algorithm=hashes.SHA256(),
@@ -16,7 +15,7 @@ def decrypt(user_key):
     salt=b'toomuchsalt97',
     iterations=100000,
     backend=default_backend()
-)
+    )
     key = base64.urlsafe_b64encode(kdf.derive(user_key.encode()))
     f = Fernet(key)
     openai_key = os.getenv('OPENAI_KEY_ENC').encode()
@@ -24,7 +23,3 @@ def decrypt(user_key):
     openai_key_result = f.decrypt(openai_key).decode()
     claude_key_result = f.decrypt(claude_key).decode()
     return {'openai': openai_key_result, 'claude': claude_key_result}
-    # print(result)
-    # print(result.decode('utf-8'))
-
-# print(decrypt(user_key))
