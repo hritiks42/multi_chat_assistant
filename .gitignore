@@ -1,4 +1,3 @@
-.env
 .venv
 decrypt.py
 __pycache__
